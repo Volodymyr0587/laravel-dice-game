@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DiceGameController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Dice Game
+Route::get('/', [DiceGameController::class, 'index'])->name('dice-game');
+Route::post('/roll', [DiceGameController::class, 'roll'])->name('roll');
