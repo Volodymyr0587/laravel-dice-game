@@ -10,7 +10,8 @@ class DiceGameController extends Controller
     public function index()
     {
         return view('dice-game.index', [
-            'currentPoints' => Session::get('currentPoints', 0)
+            'currentPoints' => Session::get('currentPoints', 0),
+            'message' => Session::get('message', null)
         ]);
     }
 
@@ -27,10 +28,14 @@ class DiceGameController extends Controller
         if ($score > 0) {
             $currentPoints += $score;
             if ($currentPoints >= 1000) {
-                $currentPoints = 1000; // Cap at 1000 points
+                Session::put('message', "Congratulations! You won! Total score: $currentPoints");
+                $currentPoints = 0;
+            } else {
+                Session::put('message', null);
             }
         } else {
             $currentPoints = 0; // Reset points if no score
+            Session::put('message', 'You lost. Try again.');
         }
 
         Session::put('currentPoints', $currentPoints);
@@ -43,7 +48,8 @@ class DiceGameController extends Controller
             'diceRolls' => $diceRolls,
             'diceImages' => $diceImages,
             'score' => $score,
-            'currentPoints' => $currentPoints
+            'currentPoints' => $currentPoints,
+            'message' => Session::get('message', null)
         ]);
     }
 

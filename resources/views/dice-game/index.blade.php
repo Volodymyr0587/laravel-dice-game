@@ -12,19 +12,20 @@
         <!-- Dice Game Section -->
         <div class="mb-16">
             @if (isset($diceRolls))
-            <div class="grid grid-rows-1 grid-flow-col gap-10 mt-20">
-                @foreach ($diceImages as $image)
-                    <img class="h-24 w-24" src="{{ asset($image) }}" alt="Dice">
-                @endforeach
-            </div>
-            <p class="mt-16 text-2xl font-bold">Your roll score: {{ $score }}</p>
-            @if ($currentPoints >= 1000)
-                <p class="mt-4 text-2xl font-bold text-green-500">Congratulations! You've reached 1000 points!</p>
+                <div class="grid grid-rows-1 grid-flow-col gap-10 mt-20">
+                    @foreach ($diceImages as $image)
+                        <img class="h-24 w-24" src="{{ asset($image) }}" alt="Dice">
+                    @endforeach
+                </div>
+                <p class="mt-16 text-2xl font-bold">Your roll score: {{ $score }}</p>
+
+                @if ($message)
+                    <p class="mt-4 text-2xl font-bold {{ Str::contains($message, 'won') ? 'text-green-500' : 'text-red-500' }}">{{ $message }}</p>
+                @else
+                    <p class="mt-4 text-2xl font-bold">Total points: {{ $currentPoints }}</p>
+                @endif
             @else
-                <p class="mt-4 text-2xl font-bold">Total points: {{ $currentPoints }}</p>
-            @endif
-            @else
-            <p>Roll the dice!</p>
+                <p>Roll the dice!</p>
             @endif
 
             <form method="POST" action="{{ route('roll') }}" class="mt-4">
